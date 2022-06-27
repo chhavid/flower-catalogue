@@ -54,24 +54,31 @@ const guestBookHandler = (request, response) => {
   return true;
 };
 
+const notFound = (request, response) => {
+  response.statusCode = 404;
+  response.send('file not found');
+  return true;
+};
+
+const handleRequest = (request, response) => {
+  let { uri } = request;
+  if (uri === '/comment') {
+    return commentsHandler(request, response);
+  }
+  if (uri === '/guestbook.html') {
+    return guestBookHandler(request, response);
+  }
+  return false;
+};
+
 const serveFileContent = (request, response, path = './public') => {
   let { uri } = request;
   if (uri === '/') {
     uri = '/index.html';
   }
 
-  if (uri === '/comment') {
-    commentsHandler(request, response);
-  }
-
-  if (uri === '/guestbook.html') {
-    guestBookHandler(request, response);
-  }
-
   const fileName = `${path}${uri}`;
-
   if (!fs.existsSync(fileName)) {
-    response.send('File not found')
     return false;
   }
 
@@ -80,8 +87,7 @@ const serveFileContent = (request, response, path = './public') => {
   const content = fs.readFileSync(fileName);
   response.send(content);
   return true;
-
 };
 
-module.exports = { serveFileContent };
+module.exports = { serveFileContent, notFound, handleRequest };
 

@@ -2,10 +2,10 @@
 ## TODO:
 
 - [ ] Extract functions.
-- [ ] Chain up handlers.
 
 ## DONE:
 
+- [x] Chain up handlers.
 - [x] Save the comments in json file.
 - [x] Convert `+` into `space`.
 - [x] Format the date.

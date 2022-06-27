@@ -2,6 +2,17 @@ const { createServer } = require('net');
 const { parseRequest } = require('./parseRequest.js');
 const { Response } = require('./response.js');
 
+const createHandler = (handlers) => {
+  return (request, response, path) => {
+    for (const handler of handlers) {
+      if (handler(request, response, path)) {
+        return true;
+      }
+    }
+    return false;
+  }
+};
+
 const onConnection = (socket, handler, path) => {
   socket.on('error', (err) => { });
   socket.on('data', (chunk) => {
@@ -21,4 +32,4 @@ const startServer = (port, handlers, path) => {
   });
 };
 
-module.exports = { startServer, onConnection };
+module.exports = { startServer, createHandler };
