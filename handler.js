@@ -11,15 +11,20 @@ const getExtension = (filename) => {
   return filename.slice(index + 1);
 };
 
+const getDate = () => {
+  const date = new Date().toString();
+  const index = date.indexOf('GMT');
+  return date.slice(0, index);
+};
+
 const comments = {};
 
 const commentsHandler = (request, response) => {
-  const filename = './public/comments.json';
   const { queryParams } = request;
   const { name, comment } = queryParams;
-  const date = new Date();
+  const date = getDate();
   comments[name] = {
-    date: date.toString(), name, comment
+    date, name, comment
   }
   response.statusCode = 302;
   response.setHeaders('location', 'guestbook.html');
@@ -31,9 +36,9 @@ const getAllComments = () => {
   let allComments = '';
   Object.keys(comments).forEach((key) => {
     const comment = comments[key];
-    allComments += `${comment.date} ${comment.name} ${comment.comment}<br/>`;
+    allComments += `${comment.date} ${comment.name}: ${comment.comment}<br/>`;
   });
-  return allComments;
+  return allComments.replaceAll('+', ' ');
 };
 
 const guestBookHandler = (request, response) => {

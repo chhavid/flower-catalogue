@@ -1,13 +1,13 @@
 
 ## TODO:
 
-- [ ] Convert `+` into `space`.
-- [ ] Format the date.
 - [ ] Save the comments in json file.
 - [ ] Chain up handlers.
 
 ## DONE:
 
+- [x] Convert `+` into `space`.
+- [x] Format the date.
 - [X] Displaying comments. 
 - [x] Add redirection for guest book.
 - [x] Add Guest book page.
