@@ -21,13 +21,18 @@ const getFileContent = (filename) => {
   return JSON.parse(fs.readFileSync(filename, 'utf8'));
 };
 
-const commentsHandler = (request, response) => {
-  const filename = './public/comments.json';
-  const comments = getFileContent(filename);
+const getComments = (request) => {
   const { queryParams } = request;
   const { name, comment } = queryParams;
   const date = getDate();
-  const commentName = { date, name, comment };
+  return { date, name, comment };
+};
+
+const commentsHandler = (request, response) => {
+  const filename = './public/comments.json';
+  const comments = getFileContent(filename);
+  const commentName = getComments(request);
+
   comments.push(commentName);
   fs.writeFileSync(filename, JSON.stringify(comments), 'utf8');
   response.statusCode = 302;
@@ -71,13 +76,12 @@ const handleRequest = (request, response) => {
   return false;
 };
 
-const serveFileContent = (request, response, path = './public') => {
-  let { uri } = request;
+const serveFileContent = ({ uri }, response,) => {
   if (uri === '/') {
     uri = '/index.html';
   }
 
-  const fileName = `${path}${uri}`;
+  const fileName = './public' + uri;
   if (!fs.existsSync(fileName)) {
     return false;
   }

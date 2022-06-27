@@ -14,7 +14,7 @@ const createHandler = (handlers) => {
 };
 
 const onConnection = (socket, handler, path) => {
-  socket.on('error', (err) => { });
+  socket.on('error', (err) => { console.log(err); });
   socket.on('data', (chunk) => {
     const request = parseRequest(chunk.toString());
     const response = new Response(socket);

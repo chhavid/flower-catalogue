@@ -2,7 +2,8 @@ const EOL = '\r\n';
 
 const errors = {
   200: 'ok',
-  404: 'not found'
+  404: 'not found',
+  302: 'Moved temporarily'
 };
 
 class Response {
