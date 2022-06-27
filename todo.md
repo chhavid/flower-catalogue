@@ -1,10 +1,12 @@
 
 ## TODO:
 
-- [ ] Add Guest book.
+- [ ] Add redirection for guest book.
+- [ ] Save the comments in json file.
 
 ## DONE:
 
+- [x] Add Guest book page.
 - [x] Add guest book link and flower pot gif in main page.
 - [x] Add content type for pdf
 - [x] Add html for agerantum.

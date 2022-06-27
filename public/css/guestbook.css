@@ -25,3 +25,15 @@ img {
   flex-direction: column;
   justify-content: center;
 }
+
+form {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  border-bottom: 1px solid black;
+  padding-bottom: 12px;
+}
+
+.comments {
+  border-bottom: 1px solid black;
+}
