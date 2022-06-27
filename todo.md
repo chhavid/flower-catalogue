@@ -1,11 +1,15 @@
 
 ## TODO:
 
-- [ ] Add redirection for guest book.
+- [ ] Convert `+` into `space`.
+- [ ] Format the date.
 - [ ] Save the comments in json file.
+- [ ] Chain up handlers.
 
 ## DONE:
 
+- [X] Displaying comments. 
+- [x] Add redirection for guest book.
 - [x] Add Guest book page.
 - [x] Add guest book link and flower pot gif in main page.
 - [x] Add content type for pdf

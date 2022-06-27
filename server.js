@@ -3,7 +3,7 @@ const { parseRequest } = require('./parseRequest.js');
 const { Response } = require('./response.js');
 
 const onConnection = (socket, handler, path) => {
-  socket.on('error', (err) => { console.log(err); });
+  socket.on('error', (err) => { });
   socket.on('data', (chunk) => {
     const request = parseRequest(chunk.toString());
     const response = new Response(socket);
