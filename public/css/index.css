@@ -6,12 +6,8 @@ body {
 h1 {
   text-align: center;
   border-bottom: 1px solid gray;
-}
-
-h3 {
-  border-bottom: 1px solid grey;
-  color: orange;
   text-align: right;
+  color: orange;
 }
 
 .wrapper {
