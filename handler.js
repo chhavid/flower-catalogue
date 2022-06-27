@@ -2,7 +2,8 @@ const fs = require('fs');
 
 const contentTypes = {
   jpg: 'image/jpg',
-  html: 'text/html'
+  html: 'text/html',
+  pdf: 'application/pdf'
 };
 
 const getExtension = (filename) => {

@@ -1,10 +1,11 @@
 
 ## TODO:
 
-- [ ] Add content type for pdf
+- [ ] Add Guest book.
 
 ## DONE:
 
+- [x] Add content type for pdf
 - [x] Add html for agerantum.
 - [x] Add html for abeliophyllum.
 - [x] Create handlers. 
