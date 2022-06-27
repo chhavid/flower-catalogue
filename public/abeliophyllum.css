@@ -1,0 +1,27 @@
+  body {
+    width: 960px;
+    margin: 0 auto;
+  }
+
+  header {
+    color: orange;
+    text-align: center;
+    border-bottom: 1px solid gray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  img {
+    margin: 10px;
+  }
+
+  .wrapper {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+  }
