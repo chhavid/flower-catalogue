@@ -1,11 +1,12 @@
 
 ## TODO:
 
-- [ ] Save the comments in json file.
+- [ ] Extract functions.
 - [ ] Chain up handlers.
 
 ## DONE:
 
+- [x] Save the comments in json file.
 - [x] Convert `+` into `space`.
 - [x] Format the date.
 - [X] Displaying comments. 

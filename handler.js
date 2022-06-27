@@ -17,32 +17,37 @@ const getDate = () => {
   return date.slice(0, index);
 };
 
-const comments = {};
+const getFileContent = (filename) => {
+  return JSON.parse(fs.readFileSync(filename, 'utf8'));
+};
 
 const commentsHandler = (request, response) => {
+  const filename = './public/comments.json';
+  const comments = getFileContent(filename);
   const { queryParams } = request;
   const { name, comment } = queryParams;
   const date = getDate();
-  comments[name] = {
-    date, name, comment
-  }
+  const commentName = { date, name, comment };
+  comments.push(commentName);
+  fs.writeFileSync(filename, JSON.stringify(comments), 'utf8');
   response.statusCode = 302;
   response.setHeaders('location', 'guestbook.html');
   response.send('');
   return true;
 };
 
-const getAllComments = () => {
+const getAllComments = (filename) => {
   let allComments = '';
-  Object.keys(comments).forEach((key) => {
-    const comment = comments[key];
+  const comments = getFileContent(filename);
+  comments.forEach((comment) => {
     allComments += `${comment.date} ${comment.name}: ${comment.comment}<br/>`;
   });
   return allComments.replaceAll('+', ' ');
 };
 
 const guestBookHandler = (request, response) => {
-  const comments = getAllComments();
+  const filename = './public/comments.json';
+  const comments = getAllComments(filename);
   let guestBook = fs.readFileSync('./public/guestbook.html', 'utf8');
   guestBook = guestBook.replace('COMMENTS', comments);
   response.send(guestBook);
