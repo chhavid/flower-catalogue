@@ -11,21 +11,6 @@ header {
   font-size: 30px;
 }
 
-img {
-  margin: 10px;
-}
-
-.wrapper {
-  display: flex;
-  justify-content: space-around;
-}
-
-.content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
 form {
   display: flex;
   align-items: flex-start;
