@@ -1,0 +1,26 @@
+body {
+  width: 960px;
+  margin: 0 auto;
+}
+
+h1 {
+  text-align: center;
+  border-bottom: 1px solid gray;
+}
+
+h3 {
+  border-bottom: 1px solid grey;
+  color: orange;
+  text-align: right;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: space-around;
+}
+
+nav {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
