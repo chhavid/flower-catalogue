@@ -5,6 +5,7 @@
 
 ## DONE:
 
+- [x] Add guest book link and flower pot gif in main page.
 - [x] Add content type for pdf
 - [x] Add html for agerantum.
 - [x] Add html for abeliophyllum.
