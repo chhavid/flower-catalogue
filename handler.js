@@ -18,6 +18,7 @@ const serveFileContent = ({ uri }, response, path = './public') => {
   const fileName = `${path}${uri}`;
 
   if (!fs.existsSync(fileName)) {
+    response.send('File not found')
     return false;
   }
 

@@ -1,0 +1,27 @@
+body {
+  width: 960px;
+  margin: 0 auto;
+}
+
+header {
+  color: orange;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+}
+
+img {
+  margin: 10px;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: space-around;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
