@@ -2,6 +2,7 @@
 ## TODO:
 
 - [ ] Extract functions.
+- [ ] Change the order of comments.
 
 ## DONE:
 

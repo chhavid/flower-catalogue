@@ -17,7 +17,15 @@ const getHtml = (comments, filename) => {
   return guestBook.replaceAll('COMMENTS', comments);
 };
 
-const guestBookHandler = (request, response, guestBook) => {
+const addGuestBook = (filename) => {
+  const guestBook = new GuestBook(filename);
+  guestBook.retrieveComments();
+  return (request, response) => {
+    request.guestBook = guestBook;
+  }
+};
+
+const guestBookHandler = ({ guestBook }, response) => {
   const allComments = guestBook.allComments();
   const guestBookPage = getHtml(allComments, './public/guestbook.html');
   response.send(guestBookPage);
@@ -30,7 +38,7 @@ const notFound = (request, response) => {
   return true;
 };
 
-const commentsHandler = ({ queryParams }, response, guestBook) => {
+const commentsHandler = ({ queryParams, guestBook }, response) => {
   const { name, comment } = queryParams;
   guestBook.add(name, comment);
   guestBook.saveComments();
@@ -42,15 +50,12 @@ const commentsHandler = ({ queryParams }, response, guestBook) => {
 
 const handleRequest = (request, response) => {
   let { uri } = request;
-  const fileName = './public/comments.json';
-  const guestBook = new GuestBook(fileName);
-  guestBook.retrieveComments();
 
   if (uri === '/comment') {
-    return commentsHandler(request, response, guestBook);
+    return commentsHandler(request, response);
   }
   if (uri === '/guestbook') {
-    return guestBookHandler(request, response, guestBook);
+    return guestBookHandler(request, response);
   }
   return false;
 };
@@ -72,4 +77,4 @@ const serveFileContent = ({ uri }, response,) => {
   return true;
 };
 
-module.exports = { serveFileContent, notFound, handleRequest };
+module.exports = { serveFileContent, notFound, handleRequest, addGuestBook };
