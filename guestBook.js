@@ -21,7 +21,7 @@ class GuestBook {
   add(name, comment) {
     const date = getDate();
     const comments = { date, name, comment }
-    this.#comments.push(comments);
+    this.#comments.unshift(comments);
   }
 
   retrieveComments() {

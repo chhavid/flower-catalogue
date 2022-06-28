@@ -2,10 +2,10 @@
 ## TODO:
 
 - [ ] Extract functions.
-- [ ] Change the order of comments.
 
 ## DONE:
 
+- [x] Change the order of comments.
 - [x] Chain up handlers.
 - [x] Save the comments in json file.
 - [x] Convert `+` into `space`.
