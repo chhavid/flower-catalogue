@@ -34,14 +34,8 @@ class GuestBook {
     fs.writeFileSync(this.#commentFile, JSON.stringify(this.#comments), 'utf8');
   }
 
-  #formatComment(comment) {
-    const formattedComment = comment.replaceAll('+', ' ');
-    return formattedComment.replaceAll('%0D%0A', '</br>');
-  }
-
   #makeList(comment) {
-    const commentList = `<li>${comment.date} ${comment.name}: ${comment.comment}</li>`;
-    return this.#formatComment(commentList);
+    return `<li>${comment.date} ${comment.name}: ${comment.comment}</li>`;
   }
 
   #getCommentsList() {

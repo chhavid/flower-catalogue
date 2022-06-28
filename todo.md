@@ -1,11 +1,11 @@
 
 ## TODO:
 
-- [ ] Read and write outside the entity.
 - [ ] Parse the queryParams in the request.
 
 ## DONE:
 
+- [x] Read and write outside the entity.
 - [x] Add new line.
 - [x] Extract functions.
 - [x] Add template in the entity.
