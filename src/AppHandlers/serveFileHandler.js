@@ -15,13 +15,14 @@ const serveFileContent = ({ url }, response) => {
   const pathname = url.pathname === '/' ? '/index.html' : url.pathname;
   const fileName = path.join('./public', pathname);
 
-  if (!fs.existsSync(fileName)) {
+  try {
+    const content = fs.readFileSync(fileName);
+    response.setHeader('content-type', determineContentType(fileName));
+    response.end(content);
+  } catch (error) {
     return false;
   }
-  response.setHeader('content-type', determineContentType(fileName));
-  const content = fs.readFileSync(fileName);
-  response.end(content);
-  return true;
+  return true
 };
 
 const notFound = (request, response) => {

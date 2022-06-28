@@ -1,11 +1,11 @@
 
 ## TODO:
 
-- [ ] Use path module for extensions.
-- [ ] Add try catch for serveFileContent.
 
 ## DONE:
 
+- [x] Add try catch for serveFileContent.
+- [x] Use path module for extensions.
 - [x] Make app.js for handlers.
 - [x] Make router.
 - [x] Make directory structure with server and app.
