@@ -1,4 +1,17 @@
 const { GuestBook } = require('./guestBook');
+const { URL } = require('url');
+
+const createHandler = (handlers) => {
+  return (request, response) => {
+    request.url = new URL(request.url, `http://${request.rawHeaders[1]}`)
+    for (const handler of handlers) {
+      if (handler(request, response)) {
+        return true;
+      }
+    }
+    return false;
+  }
+};
 
 const addGuestBook = (commentsFile, template) => {
   const guestBook = new GuestBook(commentsFile, template);
@@ -10,12 +23,13 @@ const addGuestBook = (commentsFile, template) => {
 
 const redirectPage = (response, uri) => {
   response.statusCode = 302;
-  response.setHeaders('location', uri);
-  response.send('');
+  response.setHeader('location', uri);
+  response.end('');
 };
 
-const commentsHandler = ({ queryParams, guestBook }, response) => {
-  const { name, comment } = queryParams;
+const commentsHandler = ({ url, guestBook }, response) => {
+  const name = url.searchParams.get('name');
+  const comment = url.searchParams.get('comment');
   guestBook.add(name, comment);
   guestBook.saveComments();
   redirectPage(response, '/guestbook');
@@ -23,19 +37,19 @@ const commentsHandler = ({ queryParams, guestBook }, response) => {
 };
 
 const guestBookHandler = ({ guestBook }, response) => {
-  response.send(guestBook.createPage());
+  response.end(guestBook.createPage());
   return true;
 };
 
 const handleRequest = (request, response) => {
-  let { uri } = request;
-  if (uri === '/comment') {
+  let { pathname } = request.url;
+  if (pathname === '/comment') {
     return commentsHandler(request, response);
   }
-  if (uri === '/guestbook') {
+  if (pathname === '/guestbook') {
     return guestBookHandler(request, response);
   }
   return false;
 };
 
-module.exports = { handleRequest, addGuestBook };
+module.exports = { handleRequest, addGuestBook, createHandler };

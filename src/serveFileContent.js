@@ -3,7 +3,7 @@ const fs = require('fs');
 const contentTypes = {
   jpg: 'image/jpg',
   html: 'text/html',
-  pdf: 'application/pdf'
+  pdf: 'application/pdf',
 };
 
 const getExtension = (filename) => {
@@ -15,24 +15,24 @@ const determineContentType = (filename) => {
   return contentTypes[getExtension(filename)];
 };
 
-const serveFileContent = ({ uri }, response) => {
-  if (uri === '/') {
-    uri = '/index.html';
+const serveFileContent = ({ url }, response) => {
+  const { pathname } = url;
+  if (pathname === '/') {
+    pathname = '/index.html';
   }
-  const fileName = './public' + uri;
+  const fileName = './public' + pathname;
   if (!fs.existsSync(fileName)) {
     return false;
   }
-
-  response.setHeaders('content-type', determineContentType(fileName));
+  response.setHeader('content-type', determineContentType(fileName) || 'text/plain');
   const content = fs.readFileSync(fileName);
-  response.send(content);
+  response.end(content);
   return true;
 };
 
 const notFound = (request, response) => {
   response.statusCode = 404;
-  response.send('file not found');
+  response.end('file not found');
   return true;
 };
 
