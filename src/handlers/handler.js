@@ -1,17 +1,4 @@
 const { GuestBook } = require('./guestBook');
-const { URL } = require('url');
-
-const createHandler = (handlers) => {
-  return (request, response) => {
-    request.url = new URL(request.url, `http://${request.rawHeaders[1]}`)
-    for (const handler of handlers) {
-      if (handler(request, response)) {
-        return true;
-      }
-    }
-    return false;
-  }
-};
 
 const addGuestBook = (commentsFile, template) => {
   const guestBook = new GuestBook(commentsFile, template);
@@ -52,4 +39,4 @@ const handleRequest = (request, response) => {
   return false;
 };
 
-module.exports = { handleRequest, addGuestBook, createHandler };
+module.exports = { handleRequest, addGuestBook };

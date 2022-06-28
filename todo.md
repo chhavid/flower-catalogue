@@ -1,10 +1,14 @@
 
 ## TODO:
 
-- [ ] Parse the queryParams in the request.
+- [ ] Make app.js for handlers.
+- [ ] Add try catch for serveFileContent.
 
 ## DONE:
 
+- [x] Make router.
+- [x] Make directory structure with server and app.
+- [x] Parse the queryParams in the request.
 - [x] Read and write outside the entity.
 - [x] Add new line.
 - [x] Extract functions.
