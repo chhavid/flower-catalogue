@@ -1,0 +1,20 @@
+{
+  "name": "flowercatalogue",
+  "version": "1.0.0",
+  "description": "",
+  "main": "guestBook.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node runServer.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chhavid/flower-catalogue.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chhavid/flower-catalogue/issues"
+  },
+  "homepage": "https://github.com/chhavid/flower-catalogue#readme"
+}
