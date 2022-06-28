@@ -12,6 +12,11 @@ const getExtension = (filename) => {
   return filename.slice(index + 1);
 };
 
+const determineContentType = (filename) => {
+  return contentTypes[getExtension(filename)];
+};
+
+
 const getHtml = (comments, filename) => {
   const guestBook = fs.readFileSync(filename, 'utf8');
   return guestBook.replaceAll('COMMENTS', comments);
@@ -71,8 +76,7 @@ const serveFileContent = ({ uri }, response) => {
     return false;
   }
 
-  const contentType = contentTypes[getExtension(fileName)] || 'text/plain';
-  response.setHeaders('content-type', contentType);
+  response.setHeaders('content-type', determineContentType(fileName));
   const content = fs.readFileSync(fileName);
   response.send(content);
   return true;
