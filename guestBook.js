@@ -6,15 +6,13 @@ const getDate = () => {
   return date.slice(0, index);
 };
 
-const getFileContent = (filename) => {
-  return JSON.parse(fs.readFileSync(filename, 'utf8'));
-};
-
 class GuestBook {
   #comments;
-  #filename;
-  constructor(filename) {
-    this.#filename = filename;
+  #commentFile;
+  #template;
+  constructor(commentFile, template) {
+    this.#commentFile = commentFile;
+    this.#template = template
     this.#comments = [];
   }
 
@@ -24,12 +22,16 @@ class GuestBook {
     this.#comments.unshift(comments);
   }
 
+  #getFileContent() {
+    return JSON.parse(fs.readFileSync(this.#commentFile, 'utf8'));
+  }
+
   retrieveComments() {
-    this.#comments.push(...getFileContent(this.#filename));
+    this.#comments.push(...this.#getFileContent());
   }
 
   saveComments() {
-    fs.writeFileSync(this.#filename, JSON.stringify(this.#comments), 'utf8');
+    fs.writeFileSync(this.#commentFile, JSON.stringify(this.#comments), 'utf8');
   }
 
   #formatComment(comment) {

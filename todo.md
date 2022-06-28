@@ -1,6 +1,8 @@
 
 ## TODO:
 
+- [ ] Add template in the entity.
+- [ ] Generate page from entity.
 - [ ] Extract functions.
 
 ## DONE:

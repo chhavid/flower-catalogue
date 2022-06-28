@@ -16,7 +16,6 @@ const determineContentType = (filename) => {
   return contentTypes[getExtension(filename)];
 };
 
-
 const getHtml = (comments, filename) => {
   const guestBook = fs.readFileSync(filename, 'utf8');
   return guestBook.replaceAll('COMMENTS', comments);
@@ -27,7 +26,7 @@ const addGuestBook = (filename) => {
   guestBook.retrieveComments();
   return (request, response) => {
     request.guestBook = guestBook;
-  }
+  };
 };
 
 const guestBookHandler = ({ guestBook }, response) => {
