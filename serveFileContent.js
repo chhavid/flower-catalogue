@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 const contentTypes = {
   jpg: 'image/jpg',
   html: 'text/html',
@@ -17,7 +19,6 @@ const serveFileContent = ({ uri }, response) => {
   if (uri === '/') {
     uri = '/index.html';
   }
-
   const fileName = './public' + uri;
   if (!fs.existsSync(fileName)) {
     return false;

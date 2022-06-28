@@ -1,10 +1,10 @@
 
 ## TODO:
 
-- [ ] Extract functions.
 
 ## DONE:
 
+- [x] Extract functions.
 - [x] Add template in the entity.
 - [x] Generate page from entity.
 - [x] Change the order of comments.

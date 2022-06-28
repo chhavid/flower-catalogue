@@ -1,4 +1,3 @@
-const fs = require('fs');
 const { GuestBook } = require('./guestBook');
 
 const addGuestBook = (commentsFile, template) => {
@@ -9,18 +8,22 @@ const addGuestBook = (commentsFile, template) => {
   };
 };
 
-const guestBookHandler = ({ guestBook }, response) => {
-  response.send(guestBook.createPage());
-  return true;
+const redirectPage = (response, uri) => {
+  response.statusCode = 302;
+  response.setHeaders('location', uri);
+  response.send('');
 };
 
 const commentsHandler = ({ queryParams, guestBook }, response) => {
   const { name, comment } = queryParams;
   guestBook.add(name, comment);
   guestBook.saveComments();
-  response.statusCode = 302;
-  response.setHeaders('location', '/guestbook');
-  response.send('');
+  redirectPage(response, '/guestbook');
+  return true;
+};
+
+const guestBookHandler = ({ guestBook }, response) => {
+  response.send(guestBook.createPage());
   return true;
 };
 
