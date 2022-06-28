@@ -1,30 +1,24 @@
 const fs = require('fs');
+const path = require('path');
 
 const contentTypes = {
-  jpg: 'image/jpg',
-  html: 'text/html',
-  pdf: 'application/pdf',
-};
-
-const getExtension = (filename) => {
-  const index = filename.lastIndexOf('.');
-  return filename.slice(index + 1);
+  '.jpg': 'image/jpg',
+  '.html': 'text/html',
+  '.pdf': 'application/pdf',
 };
 
 const determineContentType = (filename) => {
-  return contentTypes[getExtension(filename)];
+  return contentTypes[path.extname(filename)] || 'text/plain';
 };
 
 const serveFileContent = ({ url }, response) => {
-  let { pathname } = url;
-  if (pathname === '/') {
-    pathname = '/index.html';
-  }
-  const fileName = './public' + pathname;
+  const pathname = url.pathname === '/' ? '/index.html' : url.pathname;
+  const fileName = path.join('./public', pathname);
+
   if (!fs.existsSync(fileName)) {
     return false;
   }
-  response.setHeader('content-type', determineContentType(fileName) || 'text/plain');
+  response.setHeader('content-type', determineContentType(fileName));
   const content = fs.readFileSync(fileName);
   response.end(content);
   return true;
