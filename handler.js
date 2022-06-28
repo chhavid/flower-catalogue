@@ -26,8 +26,9 @@ const addGuestBook = (filename) => {
 };
 
 const guestBookHandler = ({ guestBook }, response) => {
+  const fileName = './public/guestbook.html';
   const allComments = guestBook.allComments();
-  const guestBookPage = getHtml(allComments, './public/guestbook.html');
+  const guestBookPage = getHtml(allComments, fileName);
   response.send(guestBookPage);
   return true;
 };
@@ -60,7 +61,7 @@ const handleRequest = (request, response) => {
   return false;
 };
 
-const serveFileContent = ({ uri }, response,) => {
+const serveFileContent = ({ uri }, response) => {
   if (uri === '/') {
     uri = '/index.html';
   }
