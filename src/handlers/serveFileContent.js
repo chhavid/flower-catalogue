@@ -16,7 +16,7 @@ const determineContentType = (filename) => {
 };
 
 const serveFileContent = ({ url }, response) => {
-  const { pathname } = url;
+  let { pathname } = url;
   if (pathname === '/') {
     pathname = '/index.html';
   }

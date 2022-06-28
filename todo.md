@@ -1,11 +1,12 @@
 
 ## TODO:
 
-- [ ] Make app.js for handlers.
+- [ ] Use path module for extensions.
 - [ ] Add try catch for serveFileContent.
 
 ## DONE:
 
+- [x] Make app.js for handlers.
 - [x] Make router.
 - [x] Make directory structure with server and app.
 - [x] Parse the queryParams in the request.
