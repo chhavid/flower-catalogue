@@ -34,17 +34,22 @@ class GuestBook {
     fs.writeFileSync(this.#commentFile, JSON.stringify(this.#comments), 'utf8');
   }
 
-  #formatComment(comment) {
+  #makeList(comment) {
     const formattedComment = `<li>${comment.date} ${comment.name}: ${comment.comment}</li>`;
     return formattedComment.replaceAll('+', ' ');
   }
 
-  allComments() {
+  #getCommentsList() {
     let comments = '';
     this.#comments.forEach((comment) => {
-      comments += this.#formatComment(comment);
+      comments += this.#makeList(comment);
     });
     return comments;
+  }
+
+  createPage() {
+    const guestBookPage = fs.readFileSync(this.#template, 'utf8');
+    return guestBookPage.replaceAll('COMMENTS', this.#getCommentsList());
   }
 }
 

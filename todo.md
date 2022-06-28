@@ -1,12 +1,12 @@
 
 ## TODO:
 
-- [ ] Add template in the entity.
-- [ ] Generate page from entity.
 - [ ] Extract functions.
 
 ## DONE:
 
+- [x] Add template in the entity.
+- [x] Generate page from entity.
 - [x] Change the order of comments.
 - [x] Chain up handlers.
 - [x] Save the comments in json file.

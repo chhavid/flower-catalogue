@@ -16,13 +16,8 @@ const determineContentType = (filename) => {
   return contentTypes[getExtension(filename)];
 };
 
-const getHtml = (comments, filename) => {
-  const guestBook = fs.readFileSync(filename, 'utf8');
-  return guestBook.replaceAll('COMMENTS', comments);
-};
-
-const addGuestBook = (filename) => {
-  const guestBook = new GuestBook(filename);
+const addGuestBook = (commentsFile, template) => {
+  const guestBook = new GuestBook(commentsFile, template);
   guestBook.retrieveComments();
   return (request, response) => {
     request.guestBook = guestBook;
@@ -30,10 +25,7 @@ const addGuestBook = (filename) => {
 };
 
 const guestBookHandler = ({ guestBook }, response) => {
-  const fileName = './public/guestbook.html';
-  const allComments = guestBook.allComments();
-  const guestBookPage = getHtml(allComments, fileName);
-  response.send(guestBookPage);
+  response.send(guestBook.createPage());
   return true;
 };
 
@@ -55,7 +47,6 @@ const commentsHandler = ({ queryParams, guestBook }, response) => {
 
 const handleRequest = (request, response) => {
   let { uri } = request;
-
   if (uri === '/comment') {
     return commentsHandler(request, response);
   }
