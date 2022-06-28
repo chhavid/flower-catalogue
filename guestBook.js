@@ -33,7 +33,7 @@ class GuestBook {
   }
 
   #formatComment(comment) {
-    const formattedComment = `${comment.date} ${comment.name}: ${comment.comment}<br/>`;
+    const formattedComment = `<li>${comment.date} ${comment.name}: ${comment.comment}</li>`;
     return formattedComment.replaceAll('+', ' ');
   }
 
