@@ -1,5 +1,6 @@
 const { startServer, createHandler } = require('./server.js');
-const { serveFileContent, handleRequest, notFound, addGuestBook } = require('./handler.js');
+const { handleRequest, addGuestBook } = require('./handler.js');
+const { serveFileContent, notFound } = require('./serveFileContent.js');
 
 const commentsFile = './public/comments.json';
 const guestBookTemplate = './public/guestbook.html'
