@@ -4,6 +4,7 @@ const matches = function (method, path) {
 
 const createHandler = (handlers) => {
   return (request, response) => {
+    console.log(request.method, request.url);
     request.url = new URL(request.url, `http://${request.headers.host}`);
     request.matches = matches.bind(request);
     for (const handler of handlers) {
