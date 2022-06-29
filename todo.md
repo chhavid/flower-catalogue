@@ -1,10 +1,10 @@
 
 ## TODO:
 
-- [ ] Read and write outside the entity.
 
 ## DONE:
 
+- [x] Read and write outside the entity.
 - [x] Add try catch for serveFileContent.
 - [x] Use path module for extensions.
 - [x] Make app.js for handlers.

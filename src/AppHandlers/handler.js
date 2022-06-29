@@ -1,10 +1,12 @@
+const fs = require('fs');
 const { GuestBook } = require('./guestBook');
 
 const addGuestBook = (commentsFile, template) => {
-  const guestBook = new GuestBook(commentsFile, template);
-  guestBook.retrieveComments();
+  const comments = JSON.parse(fs.readFileSync(commentsFile, 'utf8'));
+  const guestBook = new GuestBook(comments, template);
   return (request, response) => {
     request.guestBook = guestBook;
+    request.commentsFile = commentsFile;
   };
 };
 
@@ -14,11 +16,12 @@ const redirectPage = (response, uri) => {
   response.end('');
 };
 
-const commentsHandler = ({ url, guestBook }, response) => {
+const commentsHandler = ({ url, guestBook, commentsFile }, response) => {
   const name = url.searchParams.get('name');
   const comment = url.searchParams.get('comment');
   guestBook.add(name, comment);
-  guestBook.saveComments();
+  const allComments = JSON.stringify(guestBook.comments);
+  fs.writeFileSync(commentsFile, allComments, 'utf8');
   redirectPage(response, '/guestbook');
   return true;
 };

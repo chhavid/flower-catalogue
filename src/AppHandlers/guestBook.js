@@ -2,12 +2,10 @@ const fs = require('fs');
 
 class GuestBook {
   #comments;
-  #commentFile;
   #template;
-  constructor(commentFile, template) {
-    this.#commentFile = commentFile;
+  constructor(comments, template) {
     this.#template = template
-    this.#comments = [];
+    this.#comments = comments;
   }
 
   add(name, comment) {
@@ -16,20 +14,12 @@ class GuestBook {
     this.#comments.unshift(comments);
   }
 
-  #getFileContent() {
-    return JSON.parse(fs.readFileSync(this.#commentFile, 'utf8'));
+  get comments() {
+    return this.#comments;
   }
 
-  retrieveComments() {
-    this.#comments.push(...this.#getFileContent());
-  }
-
-  saveComments() {
-    fs.writeFileSync(this.#commentFile, JSON.stringify(this.#comments), 'utf8');
-  }
-
-  #makeList(comment) {
-    return `<li>${comment.date} ${comment.name}: ${comment.comment}</li>`;
+  #makeList({ date, name, comment }) {
+    return `<li>${date} ${name}: ${comment}</li>`;
   }
 
   #getCommentsList() {
