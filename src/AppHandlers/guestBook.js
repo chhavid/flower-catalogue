@@ -1,11 +1,5 @@
 const fs = require('fs');
 
-const getDate = () => {
-  const date = new Date().toString();
-  const index = date.indexOf('GMT');
-  return date.slice(0, index);
-};
-
 class GuestBook {
   #comments;
   #commentFile;
@@ -17,7 +11,7 @@ class GuestBook {
   }
 
   add(name, comment) {
-    const date = getDate();
+    const date = new Date().toLocaleString();
     const comments = { date, name, comment }
     this.#comments.unshift(comments);
   }
