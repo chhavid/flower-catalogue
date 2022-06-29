@@ -1,14 +1,8 @@
-const { handleRequest, addGuestBook } = require('./AppHandlers/handler.js');
-const { serveFileContent, notFound } = require('./AppHandlers/serveFileHandler.js');
-
-const validateMethod = (request, response) => {
-  if (request.method !== 'GET') {
-    response.statusCode = 405;
-    response.end('Invalid method');
-    return true
-  }
-  return false;
-};
+const { handleRequest, addGuestBook } =
+  require('./AppHandlers/guestBookHandler.js');
+const { serveFileContent, notFound } =
+  require('./AppHandlers/serveFileHandler.js');
+const { validateMethod } = require('./AppHandlers/validateMethod.js');
 
 const commentsFile = './data/comments.json';
 const guestBookTemplate = './template/guestbook.html'
