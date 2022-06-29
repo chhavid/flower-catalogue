@@ -32,7 +32,7 @@ class GuestBook {
 
   createPage() {
     const guestBookPage = fs.readFileSync(this.#template, 'utf8');
-    return guestBookPage.replaceAll('COMMENTS', this.#getCommentsList());
+    return guestBookPage.replaceAll('__COMMENTS__', this.#getCommentsList());
   }
 }
 
