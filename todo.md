@@ -1,6 +1,7 @@
 
 ## TODO:
 
+- [ ] Read and write outside the entity.
 
 ## DONE:
 
@@ -10,7 +11,6 @@
 - [x] Make router.
 - [x] Make directory structure with server and app.
 - [x] Parse the queryParams in the request.
-- [x] Read and write outside the entity.
 - [x] Add new line.
 - [x] Extract functions.
 - [x] Add template in the entity.
