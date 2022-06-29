@@ -29,11 +29,10 @@ const guestBookHandler = ({ guestBook }, response) => {
 };
 
 const handleRequest = (request, response) => {
-  let { pathname } = request.url;
-  if (pathname === '/comment') {
+  if (request.matches('GET', '/comment')) {
     return commentsHandler(request, response);
   }
-  if (pathname === '/guestbook') {
+  if (request.matches('GET', '/guestbook')) {
     return guestBookHandler(request, response);
   }
   return false;
