@@ -2,19 +2,26 @@ const matches = function (method, path) {
   return this.method === method && this.url.pathname === path;
 };
 
-const createHandler = (handlers) => {
+const createNext = handlers => {
+  let index = -1;
+  const callNextHandler = (req, res) => {
+    index++;
+    const currentHandler = handlers[index];
+    if (currentHandler) {
+      currentHandler(req, res, () => callNextHandler(req, res));
+    }
+  };
+  return callNextHandler;
+};
+
+const createRouter = (handlers) => {
   return (request, response) => {
     console.log(request.method, request.url);
     request.url = new URL(request.url, `http://${request.headers.host}`);
     request.matches = matches.bind(request);
-
-    for (const handler of handlers) {
-      if (handler(request, response)) {
-        return true;
-      }
-    }
-    return false;
-  }
+    const next = createNext(handlers);
+    next(request, response);
+  };
 };
 
-module.exports = { createHandler };
+module.exports = { createRouter };

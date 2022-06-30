@@ -1,7 +1,7 @@
 const fs = require('fs');
 const mime = require('mime-types');
 
-const serveFileContent = ({ url }, response) => {
+const serveFileContent = ({ url }, response, next) => {
   const pathname = url.pathname === '/' ? '/index.html' : url.pathname;
   const fileName = './public' + pathname;
 
@@ -10,9 +10,8 @@ const serveFileContent = ({ url }, response) => {
     response.setHeader('content-type', mime.lookup(fileName));
     response.end(content);
   } catch (error) {
-    return false;
+    next();
   }
-  return true
 };
 
 const notFound = (request, response) => {

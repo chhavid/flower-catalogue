@@ -4,10 +4,16 @@ const { GuestBook } = require('./guestBook');
 const addGuestBook = (commentsFile, template) => {
   const comments = JSON.parse(fs.readFileSync(commentsFile, 'utf8'));
   const guestBook = new GuestBook(comments, template);
-  return (request, response) => {
+  return (request, response, next) => {
     request.guestBook = guestBook;
     request.commentsFile = commentsFile;
+    next();
   };
+};
+
+const apiHandler = ({ guestBook }, response) => {
+  response.end(JSON.stringify(guestBook.comments));
+  return true;
 };
 
 const redirectPage = (response, uri) => {
@@ -16,9 +22,9 @@ const redirectPage = (response, uri) => {
   response.end('');
 };
 
-const commentsHandler = ({ url, guestBook, commentsFile }, response) => {
-  const name = url.searchParams.get('name');
-  const comment = url.searchParams.get('comment');
+const commentsHandler = ({ guestBook, commentsFile, bodyParams }, response) => {
+  const name = bodyParams.get('name');
+  const comment = bodyParams.get('comment');
   guestBook.add(name, comment);
   const allComments = JSON.stringify(guestBook.comments);
   fs.writeFileSync(commentsFile, allComments, 'utf8');
@@ -31,14 +37,17 @@ const guestBookHandler = ({ guestBook }, response) => {
   return true;
 };
 
-const handleRequest = (request, response) => {
-  if (request.matches('GET', '/comment')) {
+const handleRequest = (request, response, next) => {
+  if (request.matches('POST', '/comment')) {
     return commentsHandler(request, response);
+  }
+  if (request.matches('GET', '/api')) {
+    return apiHandler(request, response);
   }
   if (request.matches('GET', '/guestbook')) {
     return guestBookHandler(request, response);
   }
-  return false;
+  next();
 };
 
 module.exports = { handleRequest, addGuestBook };
