@@ -19,6 +19,7 @@
   "homepage": "https://github.com/chhavid/flower-catalogue#readme",
   "dependencies": {
     "mime-type": "^4.0.0",
-    "mime-types": "^2.1.35"
+    "mime-types": "^2.1.35",
+    "myserver": "github:chhavid/myServer"
   }
 }

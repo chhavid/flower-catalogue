@@ -1,4 +1,4 @@
-const { startServer } = require('./src/server/server.js');
+const { startServer } = require('myServer');
 const { createRouter } = require('./src/server/router.js');
 const { handlers } = require('./src/app');
 

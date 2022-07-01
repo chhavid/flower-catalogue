@@ -2,7 +2,7 @@ const { bodyParser } = require('./AppHandlers/bodyParser.js');
 const { handleRequest, addGuestBook } =
   require('./AppHandlers/guestBookHandler.js');
 const { serveFileContent, notFound } =
-  require('./AppHandlers/serveFileHandler.js');
+  require('myServer');
 
 const commentsFile = './data/comments.json';
 const guestBookTemplate = './template/guestbook.html'
