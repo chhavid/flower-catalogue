@@ -3,6 +3,13 @@
 <head>
   <title>Flower-catalogue</title>
   <link rel="stylesheet" href="css/index.css">
+  <script>
+    const hide = () => {
+      const flowerPot = document.getElementById('pot');
+      flowerPot.style.visibility = 'hidden';
+      setTimeout(() => flowerPot.style.visibility = 'visible', 1000);
+    };
+  </script>
 </head>
 
 <body>
@@ -13,7 +20,7 @@
     <nav>
       <li><a href="abeliophyllum.html">Abeliophyllum</a></li>
       <li><a href="ageratum.html">Ageratum</a></li>
-      <img src="images/animated-flower-image-0021.gif" alt="flower pot">
+      <img id="pot" src="images/animated-flower-image-0021.gif" alt="flower pot" onclick="hide()">
       <a href="guestbook">Guest Book</a>
     </nav>
   </div>
