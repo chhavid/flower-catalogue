@@ -10,8 +10,13 @@ const createSession = (req, sessions) => {
   return id;
 };
 
-const addUser = (sessions) => (req, res, next) => {
+const addUser = (sessions, users) => (req, res, next) => {
   if (req.matches('POST', '/add')) {
+    const name = req.bodyParams.get('name');
+    const password = req.bodyParams.get('password');
+    if (!users[name] || users[name].password !== password) {
+      return redirectPage(res, '/register.html');
+    }
     const id = createSession(req, sessions);
     res.setHeader('set-cookie', `id=${id}`);
     redirectPage(res, '/guestbook');
