@@ -10,19 +10,28 @@ const createSession = (req, sessions) => {
   return id;
 };
 
+const isPassCorrect = (users, name, password) =>
+  users[name].password === password;
+
+const areCredentialsValid = (users, { bodyParams }) => {
+  const name = bodyParams.get('name');
+  const password = bodyParams.get('password');
+  return users[name] && isPassCorrect(users, name, password);
+};
+
 const addUser = (sessions, users) => (req, res, next) => {
-  if (req.matches('POST', '/add')) {
-    const name = req.bodyParams.get('name');
-    const password = req.bodyParams.get('password');
-    if (!users[name] || users[name].password !== password) {
-      return redirectPage(res, '/register.html');
-    }
-    const id = createSession(req, sessions);
-    res.setHeader('set-cookie', `id=${id}`);
-    redirectPage(res, '/guestbook');
-    return;
+  if (!req.matches('POST', '/add')) {
+    return next();
   }
-  next();
+
+  if (!areCredentialsValid(users, req)) {
+    return redirectPage(res, '/login.html');
+  }
+
+  const id = createSession(req, sessions);
+  res.setHeader('set-cookie', `id=${id}`);
+  redirectPage(res, '/guestbook');
+  return;
 };
 
 const parseCookie = (cookieString) => {
