@@ -16,6 +16,9 @@ const apiHandler = ({ guestBook }, response) => {
   return true;
 };
 
+const write = (file, content) =>
+  fs.writeFileSync(file, content, 'utf8');
+
 const redirectPage = (response, uri) => {
   response.statusCode = 302;
   response.setHeader('location', uri);
@@ -27,7 +30,7 @@ const commentsHandler = ({ guestBook, commentsFile, bodyParams, session }, respo
   const comment = bodyParams.get('comment');
   guestBook.add(name, comment);
   const allComments = JSON.stringify(guestBook.comments);
-  fs.writeFileSync(commentsFile, allComments, 'utf8');
+  write(commentsFile, allComments);
   redirectPage(response, '/guestbook');
   return true;
 };
@@ -54,4 +57,4 @@ const handleRequest = (request, response, next) => {
   next();
 };
 
-module.exports = { handleRequest, addGuestBook };
+module.exports = { handleRequest, addGuestBook, redirectPage };
