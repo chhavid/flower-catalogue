@@ -5,8 +5,10 @@ const { serveFileContent, notFound } = require('myServer');
 const { loginHandler, logoutHandler, injectCookie, injectSession, validateUser, addUser } =
   require('./AppHandlers/cookieHandler.js');
 
+const sessions = {};
+
 const commentsFile = './data/comments.json';
 const guestBookTemplate = './template/guestbook.html'
-const handlers = [bodyParser, addGuestBook(commentsFile, guestBookTemplate), injectCookie, injectSession, loginHandler, logoutHandler, validateUser, addUser, handleRequest, serveFileContent, notFound];
+const handlers = [bodyParser, addGuestBook(commentsFile, guestBookTemplate), injectCookie, injectSession(sessions), loginHandler, logoutHandler, validateUser, addUser(sessions), handleRequest, serveFileContent, notFound];
 
 module.exports = { handlers };

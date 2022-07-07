@@ -1,5 +1,3 @@
-const sessions = {};
-
 const loginHandler = (req, res, next) => {
   if (req.matches('GET', '/login')) {
     res.statusCode = 302;
@@ -23,7 +21,7 @@ const logoutHandler = (req, res, next) => {
 
 };
 
-const createSession = (req, res) => {
+const createSession = (req, sessions) => {
   const name = req.bodyParams.get('name');
   const time = new Date().getTime();
   const id = time.toLocaleString();
@@ -33,9 +31,9 @@ const createSession = (req, res) => {
   return id;
 };
 
-const addUser = (req, res, next) => {
+const addUser = (sessions) => (req, res, next) => {
   if (req.matches('POST', '/add')) {
-    const id = createSession(req, res);
+    const id = createSession(req, sessions);
     res.setHeader('set-cookie', `id=${id}`);
     res.statusCode = 302;
     res.setHeader('Location', '/guestbook')
@@ -61,7 +59,7 @@ const injectCookie = (req, res, next) => {
   next();
 };
 
-const injectSession = (request, response, next) => {
+const injectSession = (sessions) => (request, response, next) => {
   const { id } = request.cookies;
   if (!id) {
     next();
