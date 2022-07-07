@@ -1,14 +1,26 @@
 const sessions = {};
 
 const loginHandler = (req, res, next) => {
-  const { pathname } = req.url;
-  if (pathname === '/login' && req.method === 'GET') {
+  if (req.matches('GET', '/login')) {
     res.statusCode = 302;
-    res.setHeader('Location', '/login.html');
+    res.setHeader('location', '/guestbook');
     res.end('');
     return;
   }
   next();
+};
+
+const logoutHandler = (req, res, next) => {
+  if (req.matches('GET', '/logout')) {
+    const id = req.session.id;
+    res.setHeader('set-cookie', 'id=0;max-age=0');
+    res.statusCode = 302;
+    res.setHeader('Location', '/');
+    res.end('');
+    return;
+  }
+  next();
+
 };
 
 const createSession = (req, res) => {
@@ -22,21 +34,19 @@ const createSession = (req, res) => {
 };
 
 const addUser = (req, res, next) => {
-  const { pathname } = req.url;
-  if (pathname === '/add' && req.method === 'POST') {
+  if (req.matches('POST', '/add')) {
     const id = createSession(req, res);
     res.setHeader('set-cookie', `id=${id}`);
     res.statusCode = 302;
-    res.setHeader('Location', '/')
+    res.setHeader('Location', '/guestbook')
     res.end('');
     return;
   }
   next();
 };
 
-const parseCookie = (req, res) => {
+const parseCookie = (cookieString) => {
   const cookies = {};
-  const cookieString = req.headers.cookie;
   if (cookieString) {
     cookieString.split(';').forEach(cookie => {
       const [name, value] = cookie.split('=');
@@ -47,7 +57,7 @@ const parseCookie = (req, res) => {
 };
 
 const injectCookie = (req, res, next) => {
-  req.cookies = parseCookie(req, res);
+  req.cookies = parseCookie(req.headers.cookie);
   next();
 };
 
@@ -76,4 +86,4 @@ const validateUser = (req, res, next) => {
   next();
 }
 
-module.exports = { loginHandler, injectCookie, validateUser, addUser, injectSession };
+module.exports = { loginHandler, logoutHandler, injectCookie, validateUser, addUser, injectSession };
