@@ -1,26 +1,3 @@
-const loginHandler = (req, res, next) => {
-  if (req.matches('GET', '/login')) {
-    res.statusCode = 302;
-    res.setHeader('location', '/guestbook');
-    res.end('');
-    return;
-  }
-  next();
-};
-
-const logoutHandler = (req, res, next) => {
-  if (req.matches('GET', '/logout')) {
-    const id = req.session.id;
-    res.setHeader('set-cookie', 'id=0;max-age=0');
-    res.statusCode = 302;
-    res.setHeader('Location', '/');
-    res.end('');
-    return;
-  }
-  next();
-
-};
-
 const createSession = (req, sessions) => {
   const name = req.bodyParams.get('name');
   const time = new Date().getTime();
@@ -84,4 +61,4 @@ const validateUser = (req, res, next) => {
   next();
 }
 
-module.exports = { loginHandler, logoutHandler, injectCookie, validateUser, addUser, injectSession };
+module.exports = { injectCookie, validateUser, addUser, injectSession };

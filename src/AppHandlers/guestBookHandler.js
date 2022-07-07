@@ -46,10 +46,8 @@ const handleRequest = (request, response, next) => {
     return apiHandler(request, response);
   }
   if (request.matches('GET', '/guestbook')) {
-
-    console.log('----', !request.session);
     if (!request.session) {
-      redirectPage(response, '/login');
+      return redirectPage(response, '/login');
     }
     return guestBookHandler(request, response);
   }
