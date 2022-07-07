@@ -50,7 +50,7 @@ const handleRequest = (request, response, next) => {
   }
   if (request.matches('GET', '/guestbook')) {
     if (!request.session) {
-      return redirectPage(response, '/login');
+      return redirectPage(response, '/login.html');
     }
     return guestBookHandler(request, response);
   }
