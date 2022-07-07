@@ -22,8 +22,8 @@ const redirectPage = (response, uri) => {
   response.end('');
 };
 
-const commentsHandler = ({ guestBook, commentsFile, bodyParams }, response) => {
-  const name = bodyParams.get('name');
+const commentsHandler = ({ guestBook, commentsFile, bodyParams, session }, response) => {
+  const name = session.name;
   const comment = bodyParams.get('comment');
   guestBook.add(name, comment);
   const allComments = JSON.stringify(guestBook.comments);
@@ -32,8 +32,9 @@ const commentsHandler = ({ guestBook, commentsFile, bodyParams }, response) => {
   return true;
 };
 
-const guestBookHandler = ({ guestBook }, response) => {
-  response.end(guestBook.createPage());
+const guestBookHandler = ({ guestBook, session }, response) => {
+  const name = session.name;
+  response.end(guestBook.createPage(name));
   return true;
 };
 
@@ -45,6 +46,9 @@ const handleRequest = (request, response, next) => {
     return apiHandler(request, response);
   }
   if (request.matches('GET', '/guestbook')) {
+    if (!request.session) {
+      redirectPage(response, '/login');
+    }
     return guestBookHandler(request, response);
   }
   next();
