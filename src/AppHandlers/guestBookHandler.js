@@ -35,11 +35,9 @@ const addComment = ({ guestBook, bodyParams, session, commentsFile }) => {
 
 const commentsHandler = (request, response) => {
   addComment(request);
-  response.end(request.guestBook.getCommentsList());
+  const allComments = request.guestBook.getAllComments();
+  response.end(JSON.stringify(allComments));
   return true;
-  // const comment = addComment(request);
-  // response.end(comment);
-  // return true;
 };
 
 const guestBookHandler = ({ guestBook, session }, response) => {

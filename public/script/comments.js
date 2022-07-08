@@ -1,9 +1,17 @@
-const addHtml = (allComments) => {
+const makeList = ({ date, name, comment }) => {
+  return `<li>${date} ${name}: ${comment}</li>`;
+};
+
+const addHtml = (comments) => {
   const textArea = document.querySelector('#comment');
   textArea.value = '';
 
-  const comments = document.querySelector('.comments');
-  comments.innerHTML = allComments;
+  const commentsElement = document.querySelector('.comments');
+  let allComments = '';
+  comments.forEach((comm) => {
+    allComments += makeList(comm);
+  });
+  commentsElement.innerHTML = allComments;
 };
 
 const parseFormData = (formData) => {
@@ -22,7 +30,7 @@ const addComment = () => {
 
   const xhr = new XMLHttpRequest();
   xhr.onload = () => {
-    addHtml(xhr.responseText)
+    addHtml(JSON.parse(xhr.responseText));
   };
   xhr.open('POST', '/comment');
   xhr.send(body);
