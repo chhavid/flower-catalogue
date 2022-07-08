@@ -16,6 +16,7 @@ class GuestBook {
     const date = new Date().toLocaleString();
     const comments = { date, name, comment }
     this.#comments.unshift(comments);
+    return comments;
   }
 
   get comments() {
@@ -26,7 +27,7 @@ class GuestBook {
     return `<li>${date} ${name}: ${comment}</li>`;
   }
 
-  #getCommentsList() {
+  getCommentsList() {
     let comments = '';
     this.#comments.forEach((comment) => {
       comments += this.#makeList(comment);
@@ -36,7 +37,7 @@ class GuestBook {
 
   createPage(name) {
     const content = getContent(this.#template);
-    const guestBookPage = content.replaceAll('__COMMENTS__', this.#getCommentsList());
+    const guestBookPage = content.replaceAll('__COMMENTS__', this.getCommentsList());
     return guestBookPage.replace('__NAME__', name);
   }
 }

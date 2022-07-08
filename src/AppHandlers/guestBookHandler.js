@@ -25,14 +25,21 @@ const redirectPage = (response, uri) => {
   response.end('');
 };
 
-const commentsHandler = ({ guestBook, commentsFile, bodyParams, session }, response) => {
+const addComment = ({ guestBook, bodyParams, session, commentsFile }) => {
   const name = session.name;
   const comment = bodyParams.get('comment');
   guestBook.add(name, comment);
   const allComments = JSON.stringify(guestBook.comments);
   write(commentsFile, allComments);
-  redirectPage(response, '/guestbook');
+};
+
+const commentsHandler = (request, response) => {
+  addComment(request);
+  response.end(request.guestBook.getCommentsList());
   return true;
+  // const comment = addComment(request);
+  // response.end(comment);
+  // return true;
 };
 
 const guestBookHandler = ({ guestBook, session }, response) => {
