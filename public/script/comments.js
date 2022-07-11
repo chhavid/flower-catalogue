@@ -23,28 +23,36 @@ const parseFormData = (formData) => {
   return parsedForm;
 };
 
-const makeXrhRequest = (cb, method, path, body = '') => {
+const makeXhrRequest = (cb, method, path, body = '') => {
   const xhr = new XMLHttpRequest();
+  xhr.onload = () => cb(xhr);
+
   xhr.onload = () => {
-    cb(xhr);
+    if (xhr.status == 200) {
+      cb(xhr);
+      return;
+    }
+    console.log('Error in fetching', method, path);
   }
   xhr.open(method, path);
   xhr.send(body);
 };
 
-const getComments = (statusCode) => {
-  if (statusCode === 200) {
-    const cb = (xhr) => addHtml(JSON.parse(xhr.responseText));
-    makeXrhRequest(cb, 'GET', '/api');
-  }
+const get = (url, cb) => makeXhrRequest(cb, 'GET', url);
+
+const post = (url, body, cb) => makeXhrRequest(cb, 'POST', url, body);
+
+const getComments = () => {
+  const cb = (xhr) => addHtml(JSON.parse(xhr.responseText));
+  get('/api', cb);
 };
 
 const addComment = () => {
   const formElement = document.querySelector('form');
   const formData = new FormData(formElement);
   const body = parseFormData(formData).join('&');
-  const cb = (xhr) => getComments(xhr.status);
-  makeXrhRequest(cb, 'POST', '/comment', body);
+  const cb = getComments;
+  post('/comment', body, cb);
 };
 
 const main = () => {
