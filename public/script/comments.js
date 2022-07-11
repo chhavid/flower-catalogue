@@ -23,15 +23,33 @@ const parseFormData = (formData) => {
   return parsedForm;
 };
 
+const makeXrhRequest = (cb, method, path, body = '') => {
+  const xhr = new XMLHttpRequest();
+  xhr.onload = () => {
+    cb(xhr);
+  }
+  xhr.open(method, path);
+  xhr.send(body);
+};
+
+const getComments = (statusCode) => {
+  if (statusCode === 200) {
+    const cb = (xhr) => addHtml(JSON.parse(xhr.responseText));
+    makeXrhRequest(cb, 'GET', '/api');
+  }
+};
+
 const addComment = () => {
   const formElement = document.querySelector('form');
   const formData = new FormData(formElement);
   const body = parseFormData(formData).join('&');
-
-  const xhr = new XMLHttpRequest();
-  xhr.onload = () => {
-    addHtml(JSON.parse(xhr.responseText));
-  };
-  xhr.open('POST', '/comment');
-  xhr.send(body);
+  const cb = (xhr) => getComments(xhr.status);
+  makeXrhRequest(cb, 'POST', '/comment', body);
 };
+
+const main = () => {
+  const book = document.querySelector('#book');
+  book.addEventListener('click', () => getComments(200));
+};
+
+window.onload = main

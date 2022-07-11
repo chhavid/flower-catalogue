@@ -25,19 +25,12 @@ const redirectPage = (response, uri) => {
   response.end('');
 };
 
-const addComment = ({ guestBook, bodyParams, session, commentsFile }) => {
-  const name = session.name;
+const commentsHandler = ({ guestBook, bodyParams, session, commentsFile }, response) => {
   const comment = bodyParams.get('comment');
-  guestBook.add(name, comment);
+  guestBook.add(session.name, comment);
   const allComments = JSON.stringify(guestBook.comments);
   write(commentsFile, allComments);
-};
-
-const commentsHandler = (request, response) => {
-  addComment(request);
-  const allComments = request.guestBook.getAllComments();
-  response.end(JSON.stringify(allComments));
-  return true;
+  response.end('');
 };
 
 const guestBookHandler = ({ guestBook, session }, response) => {
