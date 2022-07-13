@@ -2,7 +2,7 @@ const request = require('supertest');
 const { app } = require('../src/app.js');
 
 describe('GET /', () => {
-  it('should give status code of 200', (done) => {
+  it('should give homepage of flower catalogue', (done) => {
     request(app())
       .get('/')
       .expect('content-type', /html/)
@@ -37,10 +37,34 @@ describe('GET /guestbook', () => {
       .set('cookie', 'id=a')
       .expect(200, done)
   });
+  it('should redirect to login page if user has not logged in', (done) => {
+    request(app('./public'))
+      .get('/guestbook')
+      .expect('location', '/login.html')
+      .expect(302, done)
+  });
+});
+
+describe('GET /login.html', () => {
+  it('should give the login page', (done) => {
+    request(app())
+      .get('/login.html')
+      .expect(/login/)
+      .expect(200, done)
+  });
+});
+
+describe('GET /signup.html', () => {
+  it('should give the registeration page', (done) => {
+    request(app())
+      .get('/signup.html')
+      .expect(/register/)
+      .expect(200, done)
+  });
 });
 
 describe('POST /login', () => {
-  it('should give login page', (done) => {
+  it('should go to guestbook after login', (done) => {
     const user = { a: { name: 'a', password: 'a' } };
     request(app('./public', {}, user))
       .post('/login')
@@ -48,10 +72,27 @@ describe('POST /login', () => {
       .expect('location', '/guestbook')
       .expect(302, done)
   });
+
+  it('should ask for login again if credentials are incorrect', (done) => {
+    const user = { a: { name: 'a', password: 'a' } };
+    request(app('./public', {}, user))
+      .post('/login')
+      .send('name=a&password=b')
+      .expect('location', '/login.html')
+      .expect(302, done)
+  });
+
+  it('should shoould not login if user is not registered', (done) => {
+    request(app('./public'))
+      .post('/login')
+      .send('name=a&password=b')
+      .expect('location', '/login.html')
+      .expect(302, done)
+  });
 });
 
 describe('POST /logout', () => {
-  it('should give logout page', (done) => {
+  it('should go back to homepage after logout', (done) => {
     request(app())
       .post('/logout')
       .expect('location', '/')
@@ -60,11 +101,21 @@ describe('POST /logout', () => {
 });
 
 describe('POST /register', () => {
-  it('should give signup page', (done) => {
+  it('should go to login page after signup', (done) => {
     request(app())
       .post('/register')
       .send('name=mani&password=abc')
       .expect('location', '/login.html')
       .expect(302, done)
+  });
+});
+
+describe.only('POST /comment', () => {
+  it('should post the comment', (done) => {
+    request(app('./public', { 1: { name: 'ab', id: '1', time: '5' } }))
+      .post('/comment')
+      .set('cookie', 'id=1')
+      .send('comment=hello')
+      .expect(200, done)
   });
 });
