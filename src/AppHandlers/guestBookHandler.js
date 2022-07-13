@@ -11,9 +11,13 @@ const addGuestBook = (commentsFile, template) => {
   };
 };
 
-const apiHandler = ({ guestBook }, response) => {
-  response.end(JSON.stringify(guestBook.comments));
-  return true;
+const apiHandler = (request, response, next) => {
+  const { guestBook } = request;
+  if (request.matches('GET', '/api')) {
+    response.end(JSON.stringify(guestBook.comments));
+    return true;
+  }
+  next();
 };
 
 const write = (file, content) =>
@@ -25,11 +29,19 @@ const redirectPage = (response, uri) => {
   response.end('');
 };
 
-const commentsHandler = ({ guestBook, bodyParams, session, commentsFile }, response) => {
+const persistComments = (guestBook, file) => {
+  const allComments = JSON.stringify(guestBook.comments);
+  write(file, allComments);
+};
+
+const commentsHandler = (request, response, next) => {
+  const { guestBook, bodyParams, session, commentsFile } = request;
+  if (!request.matches('POST', '/comment')) {
+    return next();
+  }
   const comment = bodyParams.get('comment');
   guestBook.add(session.name, comment);
-  const allComments = JSON.stringify(guestBook.comments);
-  write(commentsFile, allComments);
+  persistComments(guestBook, commentsFile);
   response.end('');
 };
 
@@ -40,19 +52,13 @@ const guestBookHandler = ({ guestBook, session }, response) => {
 };
 
 const handleRequest = (request, response, next) => {
-  if (request.matches('POST', '/comment')) {
-    return commentsHandler(request, response);
+  if (!request.matches('GET', '/guestbook')) {
+    return next();
   }
-  if (request.matches('GET', '/api')) {
-    return apiHandler(request, response);
+  if (!request.session) {
+    return redirectPage(response, '/login.html');
   }
-  if (request.matches('GET', '/guestbook')) {
-    if (!request.session) {
-      return redirectPage(response, '/login.html');
-    }
-    return guestBookHandler(request, response);
-  }
-  next();
+  return guestBookHandler(request, response);
 };
 
-module.exports = { handleRequest, addGuestBook, redirectPage };
+module.exports = { handleRequest, addGuestBook, redirectPage, apiHandler, commentsHandler };

@@ -8,6 +8,7 @@ describe('GET /', () => {
     request(app(noOp))
       .get('/')
       .expect('content-type', /html/)
+      .expect('content-length', '798')
       .expect(/<title>Flower-catalogue<\/title>/)
       .expect(200, done)
   });
@@ -51,6 +52,7 @@ describe('GET /login.html', () => {
   it('should give the login page', (done) => {
     request(app(noOp))
       .get('/login.html')
+      .expect('content-length', '514')
       .expect(/login/)
       .expect(200, done)
   });

@@ -1,5 +1,5 @@
 const { bodyParser } = require('./AppHandlers/bodyParser.js');
-const { handleRequest, addGuestBook } =
+const { handleRequest, addGuestBook, apiHandler, commentsHandler } =
   require('./AppHandlers/guestBookHandler.js');
 const { serveFileContent, notFound } = require('myServer');
 const { injectCookie } = require('./AppHandlers/cookieHandler.js');
@@ -21,6 +21,8 @@ const app = (logRequest, path, sessions = {}, users = {}) => {
     signUp(users),
     loginHandler(sessions, users),
     logoutHandler(sessions),
+    apiHandler,
+    commentsHandler,
     handleRequest,
     serveFileContent(path),
     notFound];
