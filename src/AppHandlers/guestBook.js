@@ -37,8 +37,8 @@ class GuestBook {
 
   createPage(name) {
     const content = getContent(this.#template);
-    const guestBookPage = content.replaceAll('__COMMENTS__', this.#getCommentsList());
-    return guestBookPage.replace('__NAME__', name);
+    return content.replaceAll('__COMMENTS__', this.#getCommentsList())
+      .replace('__NAME__', name);
   }
 }
 

@@ -34,12 +34,14 @@ const loginHandler = (sessions, users) => (req, res, next) => {
   return;
 };
 
-const logoutHandler = (req, res, next) => {
-  if (req.matches('POST', '/logout')) {
-    res.setHeader('set-cookie', 'id=0;max-age=0');
-    return redirectPage(res, '/');
-  }
-  next();
-};
+const logoutHandler = (sessions) =>
+  (req, res, next) => {
+    if (req.matches('POST', '/logout')) {
+      delete sessions[req.cookies.id];
+      res.setHeader('set-cookie', 'id=0;max-age=0');
+      return redirectPage(res, '/');
+    }
+    next();
+  };
 
 module.exports = { logoutHandler, loginHandler };

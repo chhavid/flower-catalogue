@@ -25,7 +25,6 @@ const parseFormData = (formData) => {
 
 const makeXhrRequest = (cb, method, path, body = '') => {
   const xhr = new XMLHttpRequest();
-  xhr.onload = () => cb(xhr);
 
   xhr.onload = () => {
     if (xhr.status == 200) {
@@ -55,9 +54,4 @@ const addComment = () => {
   post('/comment', body, cb);
 };
 
-const main = () => {
-  const book = document.querySelector('#book');
-  book.addEventListener('click', () => getComments(200));
-};
-
-window.onload = main
+// window.onload = addComment;
