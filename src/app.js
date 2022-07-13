@@ -5,15 +5,14 @@ const { serveFileContent, notFound } = require('myServer');
 const { injectCookie } = require('./AppHandlers/cookieHandler.js');
 const { injectSession } = require('./AppHandlers/injectSession.js');
 const { signUp } = require('./AppHandlers/signUpHandler.js');
-const { logoutHandler, loginHandler } = require('./AppHandlers/loginHandler.js');
 const { createRouter } = require('./server/router.js');
+const { logoutHandler, loginHandler } = require('./AppHandlers/loginHandler.js');
 
-
-const app = (logRequest, path, sessions = {}, users = {}) => {
+const app = ({ log, dirPath = './public', sessions = {}, users = {} }) => {
   const commentsFile = './data/comments.json';
   const guestBookTemplate = './template/guestbook.html'
   const handlers = [
-    logRequest,
+    log,
     bodyParser,
     addGuestBook(commentsFile, guestBookTemplate),
     injectCookie,
@@ -24,7 +23,7 @@ const app = (logRequest, path, sessions = {}, users = {}) => {
     apiHandler,
     commentsHandler,
     handleRequest,
-    serveFileContent(path),
+    serveFileContent(dirPath),
     notFound];
 
   return createRouter(handlers);

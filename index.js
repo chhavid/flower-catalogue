@@ -6,4 +6,11 @@ const logRequest = ({ method, url }, res, next) => {
   next();
 };
 
-startServer(1234, app(logRequest, './public', {}, {}));
+const config = {
+  dirPath: './public',
+  sessions: {},
+  users: {},
+  log: logRequest
+}
+
+startServer(1234, app(config));
