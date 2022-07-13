@@ -6,12 +6,14 @@ const { injectCookie } = require('./AppHandlers/cookieHandler.js');
 const { injectSession } = require('./AppHandlers/injectSession.js');
 const { signUp } = require('./AppHandlers/signUpHandler.js');
 const { logoutHandler, loginHandler } = require('./AppHandlers/loginHandler.js');
+const { createRouter } = require('./server/router.js');
 
-const sessions = {};
-const users = {};
+const app = (path, sessions = {}, users = {}) => {
+  const commentsFile = './data/comments.json';
+  const guestBookTemplate = './template/guestbook.html'
+  const handlers = [bodyParser, addGuestBook(commentsFile, guestBookTemplate), injectCookie, injectSession(sessions), signUp(users), logoutHandler, loginHandler(sessions, users), handleRequest, serveFileContent(path), notFound];
 
-const commentsFile = './data/comments.json';
-const guestBookTemplate = './template/guestbook.html'
-const handlers = [bodyParser, addGuestBook(commentsFile, guestBookTemplate), injectCookie, injectSession(sessions), signUp(users), logoutHandler, loginHandler(sessions, users), handleRequest, serveFileContent, notFound];
+  return createRouter(handlers);
+};
 
-module.exports = { handlers };
+module.exports = { app };

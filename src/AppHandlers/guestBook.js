@@ -27,10 +27,6 @@ class GuestBook {
     return `<li>${date} ${name}: ${comment}</li>`;
   }
 
-  getAllComments() {
-    return this.#comments;
-  }
-
   #getCommentsList() {
     let comments = '';
     this.#comments.forEach((comment) => {
