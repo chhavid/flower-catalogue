@@ -96,7 +96,7 @@ describe('POST /login', () => {
 describe('POST /logout', () => {
   it('should go back to homepage after logout', (done) => {
     request(app(noOp))
-      .post('/logout')
+      .get('/logout')
       .expect('location', '/')
       .expect(302, done)
   });

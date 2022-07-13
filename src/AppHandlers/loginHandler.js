@@ -36,7 +36,7 @@ const loginHandler = (sessions, users) => (req, res, next) => {
 
 const logoutHandler = (sessions) =>
   (req, res, next) => {
-    if (req.matches('POST', '/logout')) {
+    if (req.matches('GET', '/logout')) {
       delete sessions[req.cookies.id];
       res.setHeader('set-cookie', 'id=0;max-age=0');
       return redirectPage(res, '/');
