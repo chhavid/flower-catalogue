@@ -38,11 +38,8 @@ describe('GET /api', () => {
 
 describe('GET /guestbook', () => {
   it('should give guestbook', (done) => {
-    const config = {
-      log: noOp,
-      sessions: { a: { name: 'a' } }
-    }
-    request(app(config))
+    const sessions = { a: { name: 'a' } };
+    request(app(config, sessions))
       .get('/guestbook')
       .set('cookie', 'id=a')
       .expect(200, done)
@@ -76,11 +73,8 @@ describe('GET /signup.html', () => {
 
 describe('POST /login', () => {
   it('should go to guestbook after login', (done) => {
-    const config = {
-      log: noOp,
-      users: { a: { name: 'a', password: 'a' } }
-    }
-    request(app(config))
+    const users = { a: { name: 'a', password: 'a' } };
+    request(app(config, {}, users))
       .post('/login')
       .send('name=a&password=a')
       .expect('location', '/guestbook')
@@ -88,11 +82,8 @@ describe('POST /login', () => {
   });
 
   it('should ask for login again if credentials are incorrect', (done) => {
-    const config = {
-      log: noOp,
-      users: { a: { name: 'a', password: 'a' } }
-    }
-    request(app(config))
+    const users = { a: { name: 'a', password: 'a' } };
+    request(app(config, {}, users))
       .post('/login')
       .send('name=a&password=b')
       .expect('location', '/login.html')
@@ -129,11 +120,8 @@ describe('POST /register', () => {
 
 describe('POST /comment', () => {
   it('should post the comment', (done) => {
-    const config = {
-      log: noOp,
-      sessions: { 1: { name: 'ab', id: '1', time: '5' } }
-    }
-    request(app(config))
+    const sessions = { 1: { name: 'ab', id: '1', time: '5' } };
+    request(app(config, sessions))
       .post('/comment')
       .set('cookie', 'id=1')
       .send('comment=hello')

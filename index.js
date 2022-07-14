@@ -1,5 +1,6 @@
 const { startServer } = require('myServer');
 const { app } = require('./src/app.js');
+const { Sessions } = require('./src/AppHandlers/sessions.js');
 
 const logRequest = ({ method, url }, res, next) => {
   console.log(method, url.pathname);
@@ -8,9 +9,7 @@ const logRequest = ({ method, url }, res, next) => {
 
 const config = {
   dirPath: './public',
-  sessions: {},
-  users: {},
   log: logRequest
-}
+};
 
-startServer(1234, app(config));
+startServer(1234, app(config, {}, {}));
