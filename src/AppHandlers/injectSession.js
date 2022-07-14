@@ -4,7 +4,7 @@ const injectSession = (sessions) => (request, response, next) => {
     next();
     return;
   }
-  request.session = sessions[id];
+  request.session = sessions.getSession(id);
   next();
 };
 

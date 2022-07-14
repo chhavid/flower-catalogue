@@ -6,7 +6,7 @@ const createSession = (req, sessions) => {
   const id = time.toLocaleString();
 
   const session = { name, id, time };
-  sessions[id] = session;
+  sessions.add(session);
   return id;
 };
 
@@ -37,7 +37,7 @@ const loginHandler = (sessions, users) => (req, res, next) => {
 const logoutHandler = (sessions) =>
   (req, res, next) => {
     if (req.matches('GET', '/logout')) {
-      delete sessions[req.cookies.id];
+      sessions.remove(req.cookies.id);
       res.setHeader('set-cookie', 'id=0;max-age=0');
       return redirectPage(res, '/');
     }

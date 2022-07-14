@@ -8,7 +8,7 @@ const { signUp } = require('./AppHandlers/signUpHandler.js');
 const { createRouter } = require('./server/router.js');
 const { logoutHandler, loginHandler } = require('./AppHandlers/loginHandler.js');
 
-const app = ({ log, dirPath = './public' }, sessions = {}, users = {}) => {
+const app = ({ log, dirPath = './public' }, sessions, users = {}) => {
   const commentsFile = './data/comments.json';
   const guestBookTemplate = './template/guestbook.html'
   const handlers = [

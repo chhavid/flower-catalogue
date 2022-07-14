@@ -12,4 +12,6 @@ const config = {
   log: logRequest
 };
 
-startServer(1234, app(config, {}, {}));
+const sessions = new Sessions();
+
+startServer(1234, app(config, sessions, {}));
