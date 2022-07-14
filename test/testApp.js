@@ -15,7 +15,7 @@ describe('GET /', () => {
     request(app(config, sessions))
       .get('/')
       .expect('content-type', /html/)
-      .expect('content-length', '798')
+      .expect('content-length', '761')
       .expect(/<title>Flower-catalogue<\/title>/)
       .expect(200, done)
   });
