@@ -16,7 +16,6 @@ const createNext = handlers => {
 
 const createRouter = (handlers) => {
   return (request, response) => {
-    // console.log(request.method, request.url);
     request.url = new URL(request.url, `http://${request.headers.host}`);
     request.matches = matches.bind(request);
     const next = createNext(handlers);

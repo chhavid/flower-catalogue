@@ -1,32 +1,23 @@
-const { bodyParser } = require('./AppHandlers/bodyParser.js');
+const express = require('express');
 const { handleRequest, addGuestBook, apiHandler, commentsHandler } =
   require('./AppHandlers/guestBookHandler.js');
-const { serveFileContent, notFound } = require('myServer');
 const { injectCookie } = require('./AppHandlers/cookieHandler.js');
 const { injectSession } = require('./AppHandlers/injectSession.js');
 const { signUp } = require('./AppHandlers/signUpHandler.js');
-const { createRouter } = require('./server/router.js');
 const { logoutHandler, loginHandler } = require('./AppHandlers/loginHandler.js');
 
-const app = ({ log, dirPath = './public' }, sessions, users = {}) => {
-  const commentsFile = './data/comments.json';
-  const guestBookTemplate = './template/guestbook.html'
-  const handlers = [
-    log,
-    bodyParser,
-    addGuestBook(commentsFile, guestBookTemplate),
-    injectCookie,
-    injectSession(sessions),
-    signUp(users),
-    loginHandler(sessions, users),
-    logoutHandler(sessions),
-    apiHandler,
-    commentsHandler,
-    handleRequest,
-    serveFileContent(dirPath),
-    notFound];
-
-  return createRouter(handlers);
+const createApp = ({ log, dir, template, commentsFile }, sessions, users) => {
+  const app = express();
+  app.use(express.urlencoded({ extended: true }))
+  app.use(addGuestBook(commentsFile, template), injectCookie, injectSession(sessions));
+  app.get('/api', apiHandler);
+  app.get('/guestbook', handleRequest);
+  app.post('/register', signUp(users));
+  app.post('/login', loginHandler(sessions, users));
+  app.post('/comment', commentsHandler);
+  app.get('/logout', logoutHandler(sessions));
+  app.use(log, express.static(dir));
+  return app;
 };
 
-module.exports = { app };
+module.exports = { createApp };

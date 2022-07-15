@@ -11,35 +11,23 @@ const addGuestBook = (commentsFile, template) => {
   };
 };
 
-const apiHandler = (request, response, next) => {
+const apiHandler = (request, response) => {
   const { guestBook } = request;
-  if (request.matches('GET', '/api')) {
-    response.end(JSON.stringify(guestBook.comments));
-    return true;
-  }
-  next();
+  response.end(JSON.stringify(guestBook.comments));
+  return true;
 };
 
 const write = (file, content) =>
   fs.writeFileSync(file, content, 'utf8');
-
-const redirectPage = (response, uri) => {
-  response.statusCode = 302;
-  response.setHeader('location', uri);
-  response.end('');
-};
 
 const persistComments = (guestBook, file) => {
   const allComments = JSON.stringify(guestBook.comments);
   write(file, allComments);
 };
 
-const commentsHandler = (request, response, next) => {
-  const { guestBook, bodyParams, session, commentsFile } = request;
-  if (!request.matches('POST', '/comment')) {
-    return next();
-  }
-  const comment = bodyParams.get('comment');
+const commentsHandler = (request, response) => {
+  const { guestBook, body, session, commentsFile } = request;
+  const { comment } = body;
   guestBook.add(session.name, comment);
   persistComments(guestBook, commentsFile);
   response.end('');
@@ -51,14 +39,12 @@ const guestBookHandler = ({ guestBook, session }, response) => {
   return true;
 };
 
-const handleRequest = (request, response, next) => {
-  if (!request.matches('GET', '/guestbook')) {
-    return next();
-  }
+const handleRequest = (request, response) => {
+
   if (!request.session) {
-    return redirectPage(response, '/login.html');
+    return response.redirect('/login.html');
   }
   return guestBookHandler(request, response);
 };
 
-module.exports = { handleRequest, addGuestBook, redirectPage, apiHandler, commentsHandler };
+module.exports = { handleRequest, addGuestBook, apiHandler, commentsHandler };

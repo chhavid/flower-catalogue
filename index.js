@@ -1,17 +1,17 @@
-const { startServer } = require('myServer');
-const { app } = require('./src/app.js');
+const { logRequest } = require('./logRequest.js');
+const { createApp } = require('./src/app.js');
 const { Sessions } = require('./src/AppHandlers/sessions.js');
 
-const logRequest = ({ method, url }, res, next) => {
-  console.log(method, url.pathname);
-  next();
-};
-
 const config = {
-  dirPath: './public',
-  log: logRequest
+  dir: './public',
+  log: logRequest,
+  template: './template/guestbook.html',
+  commentsFile: './data/comments.json'
 };
 
 const sessions = new Sessions();
+const app = createApp(config, sessions, {});
 
-startServer(1234, app(config, sessions, {}));
+app.listen(1234, () => {
+  console.log('Starting listening on 1234');
+});
