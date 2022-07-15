@@ -14,17 +14,6 @@ const addHtml = (comments) => {
   commentsElement.innerHTML = allComments;
 };
 
-// const parseFormData = (formData) => {
-//   const parsedForm = [];
-//   for (const [field, value] of formData) {
-//     // console.log(formData, field, value);
-//     console.log(formData);
-//     const paramString = field + '=' + value;
-//     parsedForm.push(paramString);
-//   }
-//   return parsedForm;
-// };
-
 const makeXhrRequest = (cb, method, path, body = '') => {
   const xhr = new XMLHttpRequest();
 
@@ -36,7 +25,6 @@ const makeXhrRequest = (cb, method, path, body = '') => {
     console.log('Error in fetching', method, path);
   }
   xhr.open(method, path);
-  // xhr.setRequestHeader('content-type', 'application/json');
   xhr.send(body);
 };
 
@@ -54,10 +42,7 @@ const getComments = () => {
 const addComment = () => {
   const formElement = document.querySelector('form');
   const formData = new FormData(formElement);
-  // const body = parseFormData(formData).join('&');
   const body = new URLSearchParams(formData);
-  // const body = formData;
-  // console.log(body);
   const cb = getComments;
   post('/comment', body, cb);
 };

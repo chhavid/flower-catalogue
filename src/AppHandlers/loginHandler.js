@@ -1,7 +1,7 @@
 const createSession = (req, sessions) => {
   const { name } = req.body;
   const time = new Date().getTime();
-  const id = time.toLocaleString();
+  const id = time;
 
   const session = { name, id, time };
   sessions.add(session);
@@ -22,16 +22,14 @@ const loginHandler = (sessions, users) => (req, res) => {
   }
 
   const id = createSession(req, sessions);
-  res.set('set-cookie', `id=${id}`);
-  // res.cookie('id', id);
+  res.cookie('id', id);
   return res.redirect('/guestbook');
 };
 
 const logoutHandler = (sessions) =>
   (req, res) => {
     sessions.remove(req.cookies.id);
-    // res.clearCookie('id');
-    res.set('set-cookie', 'id=0;max-age=0');
+    res.clearCookie('id');
     return res.redirect('/');
   };
 
