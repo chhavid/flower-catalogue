@@ -1,14 +1,6 @@
-const fs = require('fs');
-
-const getContent = (file) => {
-  return fs.readFileSync(file, 'utf8');
-};
-
 class GuestBook {
   #comments;
-  #template;
   constructor(comments, template) {
-    this.#template = template
     this.#comments = comments;
   }
 
@@ -35,8 +27,7 @@ class GuestBook {
     return comments;
   }
 
-  createPage(name) {
-    const content = getContent(this.#template);
+  createPage(name, content) {
     return content.replaceAll('__COMMENTS__', this.#getCommentsList())
       .replace('__NAME__', name);
   }

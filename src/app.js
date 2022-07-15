@@ -8,8 +8,9 @@ const { logoutHandler, loginHandler } = require('./AppHandlers/loginHandler.js')
 
 const createApp = ({ log, dir, template, commentsFile }, sessions, users) => {
   const app = express();
-  app.use(express.urlencoded({ extended: true }))
-  app.use(addGuestBook(commentsFile, template), injectCookie, injectSession(sessions));
+  app.use(express.urlencoded({ extended: true }));
+  app.use(addGuestBook(commentsFile, template));
+  app.use(injectCookie, injectSession(sessions));
   app.get('/api', apiHandler);
   app.get('/guestbook', handleRequest);
   app.post('/register', signUp(users));
